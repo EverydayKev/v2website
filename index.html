@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="I explain technology. Not to experts. To everyone else. Podcast, book, and plain-English tech translation from Hobart, Tasmania.">
+  <title>The Everyday Technologist — Kevin</title>
+
+  <!-- Brand fonts (matches brand.css) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;600;700&family=Raleway:ital,wght@0,400;0,700;1,400&family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ── TOKENS ── */
+    :root {
+      --orange:        #fc8c06;
+      --orange-dark:   #b86200;
+      --orange-mid:    #fd9f2f;
+      --orange-light:  #FFF5E6;
+      --orange-border: #fcd59a;
+      --deep:          #1A1000;
+      --deep-subtle:   #241800;
+      --text:          #1A0E00;
+      --text-muted:    #6B5B45;
+      --text-light:    #A08060;
+      --surface:       #FFFBF5;
+      --border:        #E8D5BE;
+      --white:         #FFFFFF;
+
+      --font-brand:   'Fira Sans', 'Open Sans', Arial, sans-serif;
+      --font-display: 'Raleway', 'Open Sans', Arial, sans-serif;
+      --font-body:    'Open Sans', Arial, sans-serif;
+
+      --radius-sm:  4px;
+      --radius-md:  8px;
+      --radius-lg:  14px;
+      --radius-pill: 999px;
+
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --dur:  220ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text);
+      background: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img, svg { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    /* ── NAV ── */
+    .nav {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      height: 58px;
+      background: var(--deep);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+    }
+
+    .nav__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 1080px;
+      margin-inline: auto;
+      padding-inline: clamp(20px, 5%, 60px);
+    }
+
+    .nav__logo {
+      height: 34px;
+      width: auto;
+    }
+
+    .nav__links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .nav__link {
+      font-family: var(--font-body);
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      transition: color var(--dur) var(--ease);
+    }
+
+    .nav__link:hover { color: var(--white); }
+
+    /* ── HERO / ABOUT ── */
+    .hero {
+      background: var(--white);
+      padding: clamp(48px, 8vw, 96px) clamp(20px, 5%, 60px);
+    }
+
+    .hero__inner {
+      max-width: 640px;
+      margin-inline: auto;
+    }
+
+    .hero__name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      margin-bottom: 0;
+    }
+
+    .hero__name span {
+      color: var(--orange);
+    }
+
+    .hero__friendly {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 400;
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      color: var(--text);
+      line-height: 1.4;
+      margin-top: 10px;
+      margin-bottom: 32px;
+    }
+
+    .hero__body p {
+      font-family: var(--font-body);
+      font-size: clamp(1rem, 2.2vw, 1.175rem);
+      color: var(--text-muted);
+      line-height: 1.75;
+      margin-bottom: 16px;
+    }
+
+    .hero__body p:nth-child(1),
+    .hero__body p:nth-child(2) {
+      font-family: var(--font-display);
+      font-size: clamp(1.1rem, 2.5vw, 1.35rem);
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 12px;
+    }
+
+    .hero__body p:nth-child(3) {
+      margin-top: 24px;
+    }
+
+    .hero__nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 36px;
+    }
+
+    .hero__nav a {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--orange);
+      border-bottom: 2px solid var(--orange-border);
+      padding-bottom: 2px;
+      transition: border-color var(--dur) var(--ease), color var(--dur) var(--ease);
+    }
+
+    .hero__nav a:hover {
+      color: var(--orange-dark);
+      border-color: var(--orange-dark);
+    }
+
+    /* ── DIVIDER ── */
+    .rule {
+      width: 100%;
+      height: 1px;
+      background: var(--border);
+      max-width: 1080px;
+      margin-inline: auto;
+    }
+
+    /* ── LISTEN SECTION ── */
+    .listen {
+      background: var(--surface);
+      padding: clamp(48px, 7vw, 80px) clamp(20px, 5%, 60px);
+    }
+
+    .listen__inner {
+      max-width: 680px;
+      margin-inline: auto;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      display: block;
+      margin-bottom: 16px;
+    }
+
+    .listen__heading {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .listen__sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 28px;
+    }
+
+    /* Spotify embed container */
+    .player-wrap {
+      width: 100%;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: var(--deep);
+      margin-bottom: 20px;
+    }
+
+    /* Placeholder — remove this div when real embed goes in */
+    .player-placeholder {
+      height: 232px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      background: var(--deep);
+      border-radius: var(--radius-lg);
+      border: 1.5px dashed rgba(255,255,255,0.12);
+    }
+
+    .player-placeholder__icon {
+      width: 52px;
+      height: 52px;
+      background: rgba(252,140,6,0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .player-placeholder__icon svg {
+      width: 24px;
+      height: 24px;
+      fill: var(--orange);
+    }
+
+    .player-placeholder p {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.4);
+      text-align: center;
+      line-height: 1.6;
+    }
+
+    .player-placeholder strong {
+      color: rgba(255,255,255,0.65);
+      font-weight: 600;
+    }
+
+    .listen__also {
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      color: var(--text-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .listen__also a {
+      color: var(--orange);
+      font-weight: 600;
+      border-bottom: 1px solid var(--orange-border);
+      padding-bottom: 1px;
+      transition: border-color var(--dur) var(--ease);
+    }
+
+    .listen__also a:hover {
+      border-color: var(--orange);
+    }
+
+    /* ── BOOK SECTION ── */
+    .book {
+      background: var(--white);
+      padding: clamp(48px, 7vw, 80px) clamp(20px, 5%, 60px);
+    }
+
+    .book__inner {
+      max-width: 680px;
+      margin-inline: auto;
+      display: flex;
+      gap: 32px;
+      align-items: flex-start;
+    }
+
+    .book__cover {
+      flex-shrink: 0;
+      width: clamp(100px, 22vw, 140px);
+      border-radius: var(--radius-md);
+      box-shadow: 0 8px 32px rgba(26,14,0,0.18);
+      background: var(--surface);
+      aspect-ratio: 2/3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .book__cover img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: var(--radius-md);
+    }
+
+    /* Cover placeholder text */
+    .book__cover-placeholder {
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(160deg, var(--deep) 0%, var(--deep-subtle) 100%);
+      border-radius: var(--radius-md);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 16px 12px;
+      text-align: center;
+      gap: 8px;
+    }
+
+    .book__cover-placeholder span:first-child {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1.3;
+    }
+
+    .book__cover-placeholder span:last-child {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .book__content {
+      flex: 1;
+    }
+
+    .book__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.25rem, 3vw, 1.7rem);
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: -0.01em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .book__desc {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+      margin-bottom: 24px;
+    }
+
+    /* ── BUTTONS ── */
+    .book__btns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-decoration: none;
+      padding: 13px 28px;
+      border-radius: var(--radius-sm);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition:
+        background var(--dur) var(--ease),
+        border-color var(--dur) var(--ease),
+        transform var(--dur) var(--ease),
+        box-shadow var(--dur) var(--ease);
+    }
+
+    .btn:hover { transform: translateY(-1px); }
+
+    .btn--primary {
+      background: var(--orange);
+      color: var(--white);
+      border-color: var(--orange);
+    }
+
+    .btn--primary:hover {
+      background: var(--orange-dark);
+      border-color: var(--orange-dark);
+      box-shadow: 0 4px 16px rgba(184,98,0,0.28);
+    }
+
+    .btn--ghost-dark {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border);
+    }
+
+    .btn--ghost-dark:hover {
+      border-color: var(--orange);
+      color: var(--orange);
+    }
+
+    /* ── CONTACT SECTION ── */
+    .contact {
+      background: var(--deep);
+      padding: clamp(48px, 7vw, 80px) clamp(20px, 5%, 60px);
+      text-align: center;
+    }
+
+    .contact__inner {
+      max-width: 520px;
+      margin-inline: auto;
+    }
+
+    .contact h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.4rem, 3.5vw, 2rem);
+      font-weight: 700;
+      color: var(--white);
+      letter-spacing: -0.015em;
+      margin-bottom: 12px;
+    }
+
+    .contact__sub {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      margin-bottom: 32px;
+    }
+
+    .contact__email {
+      display: inline-block;
+      font-family: var(--font-body);
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--white);
+      padding: 16px 36px;
+      border-radius: var(--radius-md);
+      border: 1.5px solid rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.05);
+      transition:
+        background var(--dur) var(--ease),
+        border-color var(--dur) var(--ease);
+    }
+
+    .contact__email:hover {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+
+    .contact__note {
+      margin-top: 16px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+      letter-spacing: 0.04em;
+    }
+
+    /* ── FOOTER ── */
+    .footer {
+      background: #04090F;
+      padding: 16px clamp(20px, 5%, 60px);
+    }
+
+    .footer__inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 1080px;
+      margin-inline: auto;
+    }
+
+    .footer p,
+    .footer a {
+      font-family: var(--font-body);
+      font-size: 11px;
+      color: rgba(255,255,255,0.28);
+      letter-spacing: 0.02em;
+    }
+
+    .footer a:hover { color: rgba(255,255,255,0.55); }
+
+    .footer__links {
+      display: flex;
+      gap: 24px;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .nav__links { display: none; }
+
+      .book__inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .book__cover {
+        width: clamp(120px, 45vw, 160px);
+      }
+
+      .book__content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .book__btns { flex-direction: column; align-items: center; width: 100%; }
+      .footer__inner { flex-direction: column; text-align: center; }
+      .footer__links { justify-content: center; }
+    }
+
+    @media (max-width: 480px) {
+      .hero__nav { flex-direction: column; gap: 8px; }
+      .btn { width: 100%; justify-content: center; }
+    }
+
+    /* ── CONTACT FORM ── */
+    .contact__inner {
+      max-width: 480px;
+      margin-inline: auto;
+    }
+
+    .contact__form {
+      margin-top: 8px;
+      margin-bottom: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-label {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.5);
+    }
+
+    .form-input {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      color: var(--white);
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: var(--radius-md);
+      padding: 12px 16px;
+      width: 100%;
+      transition: border-color var(--dur) var(--ease), background var(--dur) var(--ease);
+      outline: none;
+    }
+
+    .form-input::placeholder {
+      color: rgba(255,255,255,0.28);
+    }
+
+    .form-input:focus {
+      border-color: var(--orange);
+      background: rgba(252,140,6,0.06);
+    }
+
+    .form-textarea {
+      resize: vertical;
+      min-height: 110px;
+      line-height: 1.6;
+    }
+
+    .form-submit {
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      color: var(--deep);
+      background: var(--orange);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 14px 32px;
+      cursor: pointer;
+      width: 100%;
+      transition: background var(--dur) var(--ease), transform var(--dur) var(--ease);
+    }
+
+    .form-submit:hover {
+      background: var(--orange-dark);
+      transform: translateY(-1px);
+    }
+
+    .form-submit:disabled {
+      opacity: 0.55;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .form-status {
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      text-align: center;
+      min-height: 1.4em;
+      color: rgba(255,255,255,0.55);
+    }
+
+    .form-status.success { color: #7ecfa0; }
+    .form-status.error   { color: #f09595; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ── NAV ── -->
+  <nav class="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="/" aria-label="Everyday Technologist home">
+        <!--
+          LOGO NOTE:
+          Dark nav background → use the black & white logo.
+          On white sections → use the orange logo.
+          Update src path to match your repo structure.
+          Recommended: store logos as SVG for sharpness at all sizes.
+        -->
+        <img
+          class="nav__logo"
+          src="assets/images/logo-mono.jpg"
+          alt="The Everyday Technologist"
+          width="180"
+          height="34"
+        >
+      </a>
+      <div class="nav__links" aria-label="Site sections">
+        <a href="#listen" class="nav__link">Listen</a>
+        <a href="#book" class="nav__link">Book</a>
+        <a href="#contact" class="nav__link">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+
+  <!-- ── HERO / ABOUT ── -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero__inner">
+
+      <h1 class="hero__name" id="hero-heading">
+        Hello. I'm <span>The Everyday Technologist</span>
+      </h1>
+      <p class="hero__friendly">(But my friends call me Kevin)</p>
+
+      <div class="hero__body">
+        <p>I explain technology. Not to experts. To everyone else.</p>
+        <p>'Technology news' tells you what happened. I tell you what it means.</p>
+        <p>I'm Irish, I'm in Hobart, and I'm about as far from home as you can get without a spacesuit. Thirty years working inside government, universities, and enterprise technology. Always on the people side. Never the jargon side.</p>
+        <p>I wrote a book about scams. I make a podcast. And I genuinely believe you're not as far behind as you feel.</p>
+      </div>
+
+      <nav class="hero__nav" aria-label="Quick links">
+        <a href="#listen">Listen to the podcast</a>
+        <a href="#book">Find the book</a>
+        <a href="#contact">Get in touch</a>
+      </nav>
+
+    </div>
+  </section>
+
+  <div class="rule" role="separator"></div>
+
+
+  <!-- ── LISTEN ── -->
+  <section class="listen" id="listen" aria-labelledby="listen-heading">
+    <div class="listen__inner">
+
+      <span class="section-label">What Does That Mean?</span>
+
+      <h2 class="listen__heading" id="listen-heading">
+        This week's tech story. Plain English. Under 10 minutes.
+      </h2>
+
+      <p class="listen__sub">
+        Every episode takes one technology story from the news and translates it for people who didn't study computer science. Understandable, usable, and well-referenced — every time.
+      </p>
+
+      <!--
+        ══════════════════════════════════════════════
+        SPOTIFY EMBED — replace the placeholder below
+        with your actual Spotify embed code once live.
+
+        Spotify embed code looks like:
+        <iframe
+          style="border-radius:12px"
+          src="https://open.spotify.com/embed/show/YOUR_SHOW_ID?utm_source=generator"
+          width="100%"
+          height="232"
+          frameBorder="0"
+          allowfullscreen=""
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy">
+        </iframe>
+
+        Remove the entire .player-placeholder div below
+        and paste the iframe in its place.
+        ══════════════════════════════════════════════
+      -->
+
+      <div class="player-wrap">
+        <div class="player-placeholder" role="img" aria-label="Podcast player — coming soon">
+          <div class="player-placeholder__icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9V8h2v8zm4 0h-2V8h2v8z"/>
+            </svg>
+          </div>
+          <p>
+            <strong>First episodes recording soon.</strong><br>
+            The player will appear here — available on Spotify.
+          </p>
+        </div>
+      </div>
+
+      <!--
+        PRINT RADIO LINK — activate once your arrangement is confirmed.
+        Remove the HTML comment tags around this block.
+
+      <p class="listen__also">
+        <span>Also available on</span>
+        <a href="https://www.printradiotas.org.au" target="_blank" rel="noopener">Print Radio Tasmania</a>
+      </p>
+      -->
+
+    </div>
+  </section>
+
+  <div class="rule" role="separator"></div>
+
+
+  <!-- ── BOOK ── -->
+  <section class="book" id="book" aria-labelledby="book-heading">
+    <div class="book__inner">
+
+      <div class="book__cover" aria-hidden="true">
+        <img
+          src="assets/images/ebook-cover.jpg"
+          alt="The Scam Self-Defence Handbook — by The Everyday Technologist"
+          width="280"
+          height="420"
+          loading="lazy"
+        >
+      </div>
+
+      <div class="book__content">
+        <span class="section-label">The Book</span>
+        <h2 class="book__title" id="book-heading">The Scam Self-Defence Handbook</h2>
+        <p class="book__desc">
+          Practical, plain-English protection against the scams targeting everyday Australians. No tech background needed.
+        </p>
+        <div class="book__btns">
+          <a
+            href="https://www.amazon.com.au/dp/1764491548"
+            class="btn btn--primary"
+            target="_blank"
+            rel="noopener"
+            aria-label="Buy The Scam Self-Defence Handbook on Amazon"
+          >
+            Buy on Amazon
+          </a>
+          <!--
+            PRINT RADIO LINK — update href to the specific book page
+            on Print Radio Tasmania once confirmed after your meeting.
+          -->
+          <a
+            href="https://www.printradiotas.org.au"
+            class="btn btn--ghost-dark"
+            target="_blank"
+            rel="noopener"
+            aria-label="Listen to The Scam Self-Defence Handbook on Print Radio Tasmania"
+          >
+            Listen on Print Radio
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── CONTACT ── -->
+  <section class="contact" id="contact" aria-labelledby="contact-heading">
+    <div class="contact__inner">
+      <h2 id="contact-heading">Get in touch</h2>
+      <p class="contact__sub">
+        Workshop enquiries, speaking, media, or just a question you'd like answered. Kevin reads everything.
+      </p>
+
+      <form
+        class="contact__form"
+        action="https://formspree.io/f/mdajlzra"
+        method="POST"
+        novalidate
+        id="contact-form"
+      >
+        <div class="form-field">
+          <label class="form-label" for="name">Your name</label>
+          <input
+            class="form-input"
+            type="text"
+            id="name"
+            name="name"
+            placeholder="First name is fine"
+            required
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="email">Your email</label>
+          <input
+            class="form-input"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="so I can write back"
+            required
+            autocomplete="email"
+          >
+        </div>
+
+        <div class="form-field">
+          <label class="form-label" for="message">Message</label>
+          <textarea
+            class="form-input form-textarea"
+            id="message"
+            name="message"
+            placeholder="What's on your mind?"
+            required
+            rows="4"
+          ></textarea>
+        </div>
+
+        <!-- Honeypot — keeps spam bots out, invisible to humans -->
+        <input type="text" name="_gotcha" style="display:none" tabindex="-1" autocomplete="off">
+
+        <button type="submit" class="form-submit" id="form-btn">
+          Send message
+        </button>
+
+        <p class="form-status" id="form-status" aria-live="polite"></p>
+      </form>
+
+      <p class="contact__note">everydaytech.com.au &nbsp;&middot;&nbsp; Hobart, Tasmania</p>
+    </div>
+  </section>
+
+
+  <!-- ── FOOTER ── -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <p>&copy; 2026 Kevin O'Flaherty / The Everyday Technologist. All rights reserved.</p>
+      <nav class="footer__links" aria-label="Footer links">
+        <a href="/editorial-policy">Editorial policy</a>
+        <a href="mailto:info@everydaytech.com.au">Contact</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script>
+    const form    = document.getElementById('contact-form');
+    const btn     = document.getElementById('form-btn');
+    const status  = document.getElementById('form-status');
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+      status.textContent = '';
+      status.className = 'form-status';
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          btn.textContent = 'Sent';
+          status.textContent = 'Thanks — I\'ll be in touch.';
+          status.className = 'form-status success';
+        } else {
+          throw new Error('server error');
+        }
+      } catch {
+        btn.disabled = false;
+        btn.textContent = 'Send message';
+        status.textContent = 'Something went wrong. Try emailing info@everydaytech.com.au directly.';
+        status.className = 'form-status error';
+      }
+    });
+  </script>
+
+</body>
+</html>
