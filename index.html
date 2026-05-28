@@ -149,6 +149,24 @@
       margin-bottom: 32px;
     }
 
+    .hero__manifesto {
+      border-left: 3px solid var(--orange);
+      padding-left: 16px;
+      margin: 24px 0;
+      border-radius: 0;
+    }
+
+    .hero__manifesto p {
+      font-family: var(--font-display);
+      font-size: clamp(1.05rem, 2.4vw, 1.25rem);
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.5;
+      margin-bottom: 10px;
+    }
+
+    .hero__manifesto p:last-child { margin-bottom: 0; }
+
     .hero__body p {
       font-family: var(--font-body);
       font-size: clamp(1rem, 2.2vw, 1.175rem);
@@ -706,10 +724,12 @@
       </h1>
       <p class="hero__friendly">(But my friends call me Kevin)</p>
 
-      <div class="hero__body">
+      <div class="hero__manifesto">
         <p>I explain technology. Not to experts. To everyone else.</p>
         <p>'Technology news' tells you what happened. I tell you what it means.</p>
-        <p>I'm Irish, I'm in Hobart, and I'm about as far from home as you can get without a spacesuit. Thirty years working inside government, universities, and enterprise technology. Always on the people side. Never the jargon side.</p>
+      </div>
+
+      <div class="hero__body">
         <p>I wrote a book about scams. I make a podcast. And I genuinely believe you're not as far behind as you feel.</p>
       </div>
 
